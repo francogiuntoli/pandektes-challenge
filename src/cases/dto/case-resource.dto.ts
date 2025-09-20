@@ -10,10 +10,6 @@ export class CaseResourceDto {
   caseNumber: string | null;
   summary: string | null;
   conclusion: string | null;
-  sourceType: string | null;
-  sourceUrl: string | null;
-  sourceFilename: string | null;
-  rawText: string | null;
   createdAt: string;
   updatedAt: string;
 
@@ -28,10 +24,6 @@ export class CaseResourceDto {
     dto.caseNumber = model.caseNumber;
     dto.summary = model.summary;
     dto.conclusion = model.conclusion;
-    dto.sourceType = model.sourceType ?? null;
-    dto.sourceUrl = model.sourceUrl;
-    dto.sourceFilename = model.sourceFilename;
-    dto.rawText = model.rawText;
     dto.createdAt = model.createdAt.toISOString();
     dto.updatedAt = model.updatedAt.toISOString();
     return dto;

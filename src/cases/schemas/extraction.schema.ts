@@ -3,11 +3,11 @@ import { zodTextFormat } from 'openai/helpers/zod';
 
 export const extractionSchema = z.object({
   title: z.string().min(1),
-  decision_type: z.string(),
-  decision_date: z.string(),
-  office: z.string(),
-  court: z.string(),
-  case_number: z.string(),
+  decision_type: z.string().nullable().optional(),
+  decision_date: z.string().nullable().optional(),
+  office: z.string().nullable().optional(),
+  court: z.string().nullable().optional(),
+  case_number: z.string().nullable().optional(),
   summary: z.string(),
   conclusion: z.string(),
 });

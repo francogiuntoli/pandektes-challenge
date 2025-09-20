@@ -9,7 +9,7 @@ import * as cheerio from 'cheerio';
 import { OpenAI } from 'openai';
 import pdfParse from 'pdf-parse';
 import {
-  extrationTextFormat,
+  extractionTextFormat,
   type ExtractionSchema,
 } from './schemas/extraction.schema';
 
@@ -107,7 +107,7 @@ export class ExtractionService {
         },
       ],
       text: {
-        format: extrationTextFormat,
+        format: extractionTextFormat,
       },
     });
 

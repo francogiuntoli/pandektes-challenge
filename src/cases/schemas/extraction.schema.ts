@@ -14,7 +14,7 @@ export const extractionSchema = z.object({
 
 export type ExtractionSchema = z.infer<typeof extractionSchema>;
 
-export const extrationTextFormat = zodTextFormat(
+export const extractionTextFormat = zodTextFormat(
   extractionSchema,
   'extraction_schema',
 );

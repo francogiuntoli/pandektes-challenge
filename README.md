@@ -60,10 +60,6 @@ Sample response body:
   "caseNumber": "C-123/24",
   "summary": "…",
   "conclusion": "…",
-  "sourceType": "PDF",
-  "sourceUrl": null,
-  "sourceFilename": "example.pdf",
-  "rawText": "…",
   "createdAt": "2025-01-20T12:00:00.000Z",
   "updatedAt": "2025-01-20T12:00:00.000Z"
 }
@@ -73,6 +69,9 @@ If a case with the same `caseNumber` already exists it will be updated; otherwis
 
 ### `GET /cases/{id}`
 Fetches a single case resource by its UUID.
+
+### `DELETE /cases/{id}`
+Deletes a single case resource by its UUID.
 
 ## Environment Variables
 

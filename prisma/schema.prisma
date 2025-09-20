@@ -5,7 +5,6 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 enum CaseSourceType {
@@ -14,19 +13,15 @@ enum CaseSourceType {
 }
 
 model Case {
-  id             String          @id @default(uuid())
-  title          String
-  decisionType   String?
-  decisionDate   DateTime?
-  office         String?
-  court          String?
-  caseNumber     String?
-  summary        String?
-  conclusion     String?
-  sourceType     CaseSourceType?
-  sourceUrl      String?
-  sourceFilename String?
-  rawText        String?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  id           String    @id @default(uuid())
+  title        String
+  decisionType String?
+  decisionDate DateTime?
+  office       String?
+  court        String?
+  caseNumber   String?
+  summary      String?
+  conclusion   String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }

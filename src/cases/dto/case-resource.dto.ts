@@ -1,4 +1,4 @@
-import { Case } from 'generated/prisma';
+import { Case } from '@prisma/client';
 
 export class CaseResourceDto {
   id: string;

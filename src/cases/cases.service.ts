@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { Case, Prisma } from 'generated/prisma';
+import { Case, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ExtractionService } from './extraction.service';
 

@@ -4,7 +4,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CaseSourceType } from 'generated/prisma';
+import { CaseSourceType } from '@prisma/client';
 import * as cheerio from 'cheerio';
 import { OpenAI } from 'openai';
 import pdfParse from 'pdf-parse';

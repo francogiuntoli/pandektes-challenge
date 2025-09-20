@@ -79,8 +79,8 @@ Deletes a single case resource by its UUID.
 | --- | --- | --- |
 | `DATABASE_URL` | ✅ | Connection string for Prisma (PostgreSQL). |
 | `OPENAI_API_KEY` | ✅ | API key for the OpenAI-compatible provider. |
-|`CORS_ORIGINS` | ❌ | Comma-separated list of allowed origins for CORS. Defaults to allow all origins. |
-| `OPENAI_MODEL` | ❌ | Override for the model name (defaults to `gpt-4o-mini`). |
+| `CORS_ORIGINS` | ❌ | Comma-separated list of allowed origins for CORS. Defaults to allow all origins. |
+| `OPENAI_MODEL` | ❌ | Override for the model name (defaults to `gpt-4o-mini`). [OpenAI Models](https://platform.openai.com/docs/models) - Must have structured outputs |
 
 ## Key Decisions & Trade-offs
 

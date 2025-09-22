@@ -30,8 +30,12 @@ const RAW_TEXT_MAX_LENGTH = 15000;
 export class ExtractionService {
   private readonly logger = new Logger(ExtractionService.name);
   private openAIClient: OpenAI | null = null;
+  private readonly promptTemplate: string | null;
 
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {
+    this.promptTemplate =
+      this.configService.get<string>('METADATA_EXTRACTION_PROMPT') ?? null;
+  }
 
   async extractMetadata(file: Express.Multer.File): Promise<ExtractedMetadata> {
     const sourceType = this.detectSourceType(file);
@@ -123,6 +127,17 @@ export class ExtractionService {
 
   private buildPrompt(rawText: string): string {
     const truncated = rawText.slice(0, RAW_TEXT_MAX_LENGTH);
+    if (this.promptTemplate) {
+      const marker = '{{DOCUMENT_TEXT}}';
+      if (!this.promptTemplate.includes(marker)) {
+        this.logger.warn(
+          'METADATA_EXTRACTION_PROMPT is missing the {{DOCUMENT_TEXT}} placeholder; appending document text automatically.',
+        );
+        return `${this.promptTemplate}\n\n${truncated}`;
+      }
+      return this.promptTemplate.split(marker).join(truncated);
+    }
+
     return [
       'Extract the following fields from the provided case law document:',
       'title, decision_type, decision_date (ISO 8601), office, court, case_number, summary, conclusion, source_url (if explicitly referenced).',

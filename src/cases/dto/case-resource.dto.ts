@@ -1,16 +1,39 @@
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Case } from '@prisma/client';
 
+@ObjectType()
 export class CaseResourceDto {
+  @Field(() => ID)
   id: string;
+
+  @Field()
   title: string;
+
+  @Field({ nullable: true })
   decisionType: string | null;
+
+  @Field({ nullable: true })
   decisionDate: string | null;
+
+  @Field({ nullable: true })
   office: string | null;
+
+  @Field({ nullable: true })
   court: string | null;
+
+  @Field({ nullable: true })
   caseNumber: string | null;
+
+  @Field({ nullable: true })
   summary: string | null;
+
+  @Field({ nullable: true })
   conclusion: string | null;
+
+  @Field()
   createdAt: string;
+
+  @Field()
   updatedAt: string;
 
   static fromModel(model: Case): CaseResourceDto {

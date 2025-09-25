@@ -10,11 +10,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import multer from 'multer';
 import { CasesService } from './cases.service';
 import { CaseResourceDto } from './dto/case-resource.dto';
-
-const FILE_SIZE_LIMIT = 10 * 1024 * 1024; // 10MB
+import multer from 'multer';
+import { CASE_FILE_SIZE_LIMIT } from './constants';
 
 @Controller('cases')
 export class CasesController {
@@ -23,7 +22,7 @@ export class CasesController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: multer.memoryStorage(),
-      limits: { fileSize: FILE_SIZE_LIMIT },
+      limits: { fileSize: CASE_FILE_SIZE_LIMIT },
     }),
   )
   async importCase(

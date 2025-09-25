@@ -12,6 +12,7 @@ import {
   extractionTextFormat,
   type ExtractionSchema,
 } from './schemas/extraction.schema';
+import { RAW_TEXT_MAX_LENGTH } from './constants';
 
 interface ExtractedMetadata {
   title: string;
@@ -23,8 +24,6 @@ interface ExtractedMetadata {
   summary: string;
   conclusion: string;
 }
-
-const RAW_TEXT_MAX_LENGTH = 15000;
 
 @Injectable()
 export class ExtractionService {

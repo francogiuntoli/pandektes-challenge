@@ -58,8 +58,8 @@ Authenticate with the seeded (or self-managed) user credentials to obtain a JWT 
 
 ```json
 {
-  "email": "demo@example.com",
-  "password": "change-me-please"
+  "email": "franco@pandektes.com",
+  "password": "should_hire_me"
 }
 ```
 
@@ -72,7 +72,7 @@ Example response:
   "expiresIn": 900,
   "user": {
     "id": "a3f538f1-3f0f-4a31-9a27-7f9fa0dfc2a5",
-    "email": "demo@example.com"
+    "email": "franco@pandektes.com"
   }
 }
 ```

@@ -1,17 +1,49 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Case } from '@prisma/client';
 
 export class CaseResourceDto {
-  id: string;
-  title: string;
-  decisionType: string | null;
-  decisionDate: string | null;
-  office: string | null;
-  court: string | null;
-  caseNumber: string | null;
-  summary: string | null;
-  conclusion: string | null;
-  createdAt: string;
-  updatedAt: string;
+  @ApiProperty({ example: 'f7a5b38b-e4e3-4c76-870a-7b4c2102b4f0' })
+  id!: string;
+
+  @ApiProperty({ example: 'Judgment of the Court (Grand Chamber)' })
+  title!: string;
+
+  @ApiProperty({ nullable: true, example: 'Judgment' })
+  decisionType!: string | null;
+
+  @ApiProperty({
+    nullable: true,
+    format: 'date-time',
+    example: '2024-01-30T00:00:00.000Z',
+  })
+  decisionDate!: string | null;
+
+  @ApiProperty({ nullable: true, example: 'Grand Chamber' })
+  office!: string | null;
+
+  @ApiProperty({
+    nullable: true,
+    example: 'Court of Justice of the European Union',
+  })
+  court!: string | null;
+
+  @ApiProperty({ nullable: true, example: 'C-123/24' })
+  caseNumber!: string | null;
+
+  @ApiProperty({ nullable: true, description: 'Short summary of the case.' })
+  summary!: string | null;
+
+  @ApiProperty({
+    nullable: true,
+    description: 'Outcome or conclusion of the decision.',
+  })
+  conclusion!: string | null;
+
+  @ApiProperty({ format: 'date-time' })
+  createdAt!: string;
+
+  @ApiProperty({ format: 'date-time' })
+  updatedAt!: string;
 
   static fromModel(model: Case): CaseResourceDto {
     const dto = new CaseResourceDto();

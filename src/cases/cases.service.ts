@@ -56,10 +56,7 @@ export class CasesService {
   }
 
   async deleteCase(id: string): Promise<string> {
-    const removedUser = await this.getCaseById(id);
-    if (!removedUser) {
-      throw new NotFoundException(`Case ${id} not found`);
-    }
+    await this.getCaseById(id);
     await this.prisma.case.delete({ where: { id } });
     return id;
   }

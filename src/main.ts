@@ -1,7 +1,10 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ArgumentMetadata, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { json } from 'express';
 import { AppModule } from './app.module';
+import { graphqlUploadExpress } from 'graphql-upload-minimal';
+import { CASE_FILE_SIZE_LIMIT } from './cases/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,8 +20,27 @@ async function bootstrap() {
     maxAge: 86400,
   });
 
+  app.use(json());
+
+  app.use(
+    '/graphql',
+    graphqlUploadExpress({
+      maxFiles: 1,
+      maxFileSize: CASE_FILE_SIZE_LIMIT,
+    }),
+  );
+
+  class AppValidationPipe extends ValidationPipe {
+    protected toValidate(metadata: ArgumentMetadata): boolean {
+      if (metadata.metatype === Promise) {
+        return false;
+      }
+      return super.toValidate(metadata);
+    }
+  }
+
   app.useGlobalPipes(
-    new ValidationPipe({
+    new AppValidationPipe({
       transform: true,
       whitelist: true,
     }),

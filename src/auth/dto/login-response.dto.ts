@@ -4,7 +4,7 @@ class AuthenticatedUserDto {
   @ApiProperty({ example: 'a3f538f1-3f0f-4a31-9a27-7f9fa0dfc2a5' })
   id!: string;
 
-  @ApiProperty({ example: 'demo@example.com' })
+  @ApiProperty({ example: 'franco@pandektes.com' })
   email!: string;
 }
 

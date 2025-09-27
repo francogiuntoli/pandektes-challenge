@@ -125,7 +125,7 @@ Deletes a single case resource by its UUID (requires bearer token).
 ## Key Decisions & Trade-offs
 
 - **OpenAI Responses API**: Chosen for native JSON mode, simplifying schema validation. This can be swapped with any compatible provider by adjusting `ExtractionService`.
-- **LLM-first parsing**: HTML/PDF parsing is intentionally minimal. The cleaning is done before handing control to the LLM to keep the implementation flexible. More robust tools like doculing could be used for data extraction. Also other LLMs to consume PDF files directly for a better data extraction (text layout recognition).
+- **LLM-first parsing**: HTML/PDF parsing is intentionally minimal. The cleaning is done before handing control to the LLM to keep the implementation flexible. More robust tools like docling could be used for data extraction. Also other LLMs to consume PDF files directly for a better data extraction (text layout recognition).
 - **Upsert by `caseNumber`**: Helps avoid duplicates when re-processing previously ingested documents. Cases without a number are treated as unique inserts.
 
 ## Production Hardening Ideas

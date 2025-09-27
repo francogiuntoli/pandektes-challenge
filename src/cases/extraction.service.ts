@@ -58,7 +58,10 @@ export class ExtractionService {
   }
 
   private detectSourceType(file: Express.Multer.File): CaseSourceType {
-    if (file.mimetype.includes('pdf')) {
+    const mimetype = file.mimetype?.toLowerCase() ?? '';
+    const originalName = file.originalname?.toLowerCase() ?? '';
+
+    if (mimetype.includes('pdf') || originalName.endsWith('.pdf')) {
       return CaseSourceType.PDF;
     }
     return CaseSourceType.HTML;
@@ -71,7 +74,7 @@ export class ExtractionService {
     if (!file.buffer) {
       throw new InternalServerErrorException('File buffer is empty');
     }
-
+    console.log(file.buffer);
     if (sourceType === CaseSourceType.PDF) {
       const result = await pdfParse(file.buffer);
       return result.text;

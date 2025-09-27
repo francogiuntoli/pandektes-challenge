@@ -51,9 +51,11 @@ The server listens on `http://localhost:3000` by default. Interactive API docs l
 
 ## API
 
-All endpoints (except `/` and `/auth/login`) require a valid `Authorization: Bearer <token>` header.
+All REST endpoints (except `/` and `/auth/login`) require a valid `Authorization: Bearer <token>` header. The same bearer token is used for authenticated GraphQL operations in Apollo Explorer.
 
-### `POST /auth/login`
+### REST endpoints
+
+#### `POST /auth/login`
 Authenticate with the seeded (or self-managed) user credentials to obtain a JWT access token. Example body:
 
 ```json
@@ -77,10 +79,10 @@ Example response:
 }
 ```
 
-### `GET /docs`
+#### `GET /docs`
 Swagger UI for exploring the API. Use the **Authorize** button to paste the JWT and issue authenticated requests directly from the browser.
 
-### `POST /cases/import`
+#### `POST /cases/import`
 Multipart form-data upload (requires the bearer token) that expects a `file` field containing either the HTML or PDF case file. On success it returns the stored resource.
 
 Sample response body:
@@ -102,11 +104,116 @@ Sample response body:
 
 If a case with the same `caseNumber` already exists it will be updated; otherwise it is created.
 
-### `GET /cases/{id}`
+#### `GET /cases/{id}`
 Fetches a single case resource by its UUID (requires bearer token).
 
-### `DELETE /cases/{id}`
+#### `DELETE /cases/{id}`
 Deletes a single case resource by its UUID (requires bearer token).
+
+### GraphQL (Apollo Explorer)
+
+- When the dev server is running, open `http://localhost:3000/graphql` in the browser to launch Apollo Explorer (a.k.a. Apollo Sandbox). It introspects the schema automatically.
+- Use the `Headers` panel in Explorer to store `Authorization: Bearer <token>` once you obtain a JWT (see login mutation below).
+- Explorer persists operations, so you can save the examples that follow into your personal collection for quick reuse.
+
+#### Authenticate and capture the JWT
+
+```graphql
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    accessToken
+    tokenType
+    expiresIn
+    user {
+      id
+      email
+    }
+  }
+}
+```
+
+Variables:
+
+```json
+{
+  "input": {
+    "email": "franco@pandektes.com",
+    "password": "should_hire_me"
+  }
+}
+```
+
+Copy the `accessToken` from the response and add `Authorization: Bearer <token>` in Explorer's headers before issuing the next operations.
+
+#### Fetch a case by id
+
+```graphql
+query Case($id: String!) {
+  case(id: $id) {
+    id
+    title
+    decisionType
+    decisionDate
+    office
+    court
+    caseNumber
+    summary
+    conclusion
+    createdAt
+    updatedAt
+  }
+}
+```
+
+Variables:
+
+```json
+{
+  "id": "b2f4a6ce-1c19-4eb3-9d4e-80cf98cb2448"
+}
+```
+
+#### Import a case file via upload
+
+```graphql
+mutation ImportCase($file: Upload!) {
+  importCase(file: $file) {
+    id
+    title
+    decisionType
+    decisionDate
+    office
+    court
+    caseNumber
+    summary
+    conclusion
+    createdAt
+    updatedAt
+  }
+}
+```
+
+In Explorer, open the **Files** panel, add a file, and assign it to the `$file` variable before running the mutation. PDFs and HTML case files follow the same validation rules as the REST importer.
+
+#### Delete a case
+
+```graphql
+mutation DeleteCase($id: String!) {
+  deleteCase(id: $id) {
+    id
+    title
+    caseNumber
+  }
+}
+```
+
+Variables:
+
+```json
+{
+  "id": "b2f4a6ce-1c19-4eb3-9d4e-80cf98cb2448"
+}
+```
 
 ## Environment Variables
 
@@ -125,7 +232,7 @@ Deletes a single case resource by its UUID (requires bearer token).
 ## Key Decisions & Trade-offs
 
 - **OpenAI Responses API**: Chosen for native JSON mode, simplifying schema validation. This can be swapped with any compatible provider by adjusting `ExtractionService`.
-- **LLM-first parsing**: HTML/PDF parsing is intentionally minimal. The cleaning is done before handing control to the LLM to keep the implementation flexible. Deterministic parsing could be added later for frequently seen formats.
+- **LLM-first parsing**: HTML/PDF parsing is intentionally minimal. The cleaning is done before handing control to the LLM to keep the implementation flexible. More robust tools like doculing could be used for data extraction. Also other LLMs to consume PDF files directly for a better data extraction (text layout recognition).
 - **Upsert by `caseNumber`**: Helps avoid duplicates when re-processing previously ingested documents. Cases without a number are treated as unique inserts.
 
 ## Production Hardening Ideas

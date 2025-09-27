@@ -232,16 +232,18 @@ Variables:
 ## Key Decisions & Trade-offs
 
 - **OpenAI Responses API**: Chosen for native JSON mode, simplifying schema validation. This can be swapped with any compatible provider by adjusting `ExtractionService`.
-- **LLM-first parsing**: HTML/PDF parsing is intentionally minimal. The cleaning is done before handing control to the LLM to keep the implementation flexible. More robust tools like doculing could be used for data extraction. Also other LLMs to consume PDF files directly for a better data extraction (text layout recognition).
+- **LLM-first parsing**: HTML/PDF parsing is intentionally minimal. The cleaning is done before handing control to the LLM to keep the implementation flexible. More robust tools like docling could be used for data extraction. Also other LLMs to consume PDF files directly for a better data extraction (text layout recognition).
 - **Upsert by `caseNumber`**: Helps avoid duplicates when re-processing previously ingested documents. Cases without a number are treated as unique inserts.
+
 
 ## Production Hardening Ideas
 
-1. Automated retries and rate-limit handling for LLM providers.
-2. Persist the original file and/or structured JSON blob for traceability.
-3. Add structured validations + business rules (e.g. enforce required fields based on decision type).
-4. Implement background jobs for extraction so uploads return quickly.
-5. Test coverage (unit tests for extraction pipeline, e2e tests hitting a mock LLM).
+- **Escalability**: Implementation of cursor-based pagination to handle large datasets efficiently
+- **Performance**: DataLoader would fix the N+1 problem and improve performance
+- **UX**: Subscriptions would allow realtime updates without constant polling
+- **Robustness**: Personalized error handling would facilitate debugging and client feedback
+- **Security**: Rate limiting would prevent API abuse and enforce validations would secure data integrity
+- **Maintenability**: Automated testing with GraphQL Test Client and inline documentation would simplify development
 
 ## Troubleshooting
 

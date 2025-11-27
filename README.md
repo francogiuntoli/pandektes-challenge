@@ -1,6 +1,8 @@
 # Pandektes Case Law Extractor
 
 This NestJS service ingests a case law document (HTML or PDF), extracts structured metadata with an LLM, and stores the result in PostgreSQL via Prisma. It also exposes an endpoint to retrieve and/or delete an extracted case.
+You can use these as examples for [PDF](https://curia.europa.eu/juris/document/document.jsf?docid=297808&mode=req&pageIndex=1&dir=&occ=first&part=1&text=&doclang=EN&cid=7746690) / [HTML](https://mfkn.naevneneshus.dk/afgoerelse/9d2a285b-aef1-4399-b157-a9e00972a152)
+
 
 ## Tech Stack
 
